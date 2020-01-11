@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
+import '../providers/cart.dart';
 
 class ProductItem extends StatelessWidget {
   // final String id;
@@ -15,6 +16,8 @@ class ProductItem extends StatelessWidget {
     // Provider will detect the change and call build method
     // this my inefficient, Use Consumer which only rebuild its child if there is change
     final product = Provider.of<Product>(context, listen: false);
+    // add cart provicer and don't care change of state
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -48,7 +51,9 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                 Icons.shopping_cart,
               ),
-              onPressed: () {},
+              onPressed: () {
+                cart.addItem(product.id, product.price, product.title);
+              },
               color: Theme.of(context).accentColor,
             ),
             backgroundColor: Colors.black87,
