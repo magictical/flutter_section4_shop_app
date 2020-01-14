@@ -16,7 +16,7 @@ class ProductDetailScreen extends StatelessWidget {
     final productId = ModalRoute.of(context).settings.arguments as String;
     final loadedProduct = Provider.of<Products>(
       context,
-      // don't listen, thus don't rebuild
+      // not listen, not rebuild
       listen: false,
     ).findById(productId);
 
