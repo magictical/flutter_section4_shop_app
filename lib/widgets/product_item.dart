@@ -53,6 +53,22 @@ class ProductItem extends StatelessWidget {
               ),
               onPressed: () {
                 cart.addItem(product.id, product.price, product.title);
+                // hide previous one when display the new one
+                Scaffold.of(context).hideCurrentSnackBar();
+                // 위젯트리에서 가장 가까운 Scaffold의 context를 사용 여기서는 product overview임
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'Added Item To Cart!',
+                    textAlign: TextAlign.center,
+                  ),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                ));
               },
               color: Theme.of(context).accentColor,
             ),
