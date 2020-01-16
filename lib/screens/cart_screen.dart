@@ -7,10 +7,10 @@ import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Cart'),
