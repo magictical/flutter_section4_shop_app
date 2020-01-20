@@ -10,6 +10,16 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   // manage the cursor on the FormFiled
   final _priceFocusNode = FocusNode();
+  final _descFocusNode = FocusNode();
+
+  // dispose NocusNode to prevent memory leakage
+  @override
+  void dispose() {
+    _priceFocusNode.dispose();
+    _descFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +45,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 focusNode: _priceFocusNode,
+                onFieldSubmitted: (_) {
+                  // designate to cursor where to go (move to focusNode)
+                  FocusScope.of(context).requestFocus(_descFocusNode);
+                },
               ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Description'),
+                maxLines: 5,
+                keyboardType: TextInputType.multiline,
+                focusNode: _descFocusNode,
+              )
             ],
           ),
         ),
