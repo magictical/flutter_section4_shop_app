@@ -88,4 +88,9 @@ class Products with ChangeNotifier {
       print('Error in updating Product list');
     }
   }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 }
