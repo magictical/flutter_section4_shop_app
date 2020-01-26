@@ -75,6 +75,7 @@ class Products with ChangeNotifier {
     http
         .post(
       url,
+      // convert product to json format
       body: json.encode({
         'title': product.title,
         'description': product.description,
@@ -91,6 +92,9 @@ class Products with ChangeNotifier {
         description: product.description,
         price: product.price,
         imageUrl: product.imageUrl,
+        // firebase가 유니크 id를 생성하기 때문에 .then을 사용해서 그 값만
+        // product의 id에 저장하고 이 id로 조건 검색해서 firebase DB에서
+        // 원하는 product를 불러온다
         id: json.decode(response.body)['name'],
       );
       _items.add(newProduct);
