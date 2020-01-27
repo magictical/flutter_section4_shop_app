@@ -68,11 +68,12 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct(Product product) {
+// to use loading spinner, use Future, .then() while save data to DB
+  Future<void> addProduct(Product product) {
     // url for 'Products' in firebase
     const url = 'https://flutter-update-97117.firebaseio.com/products.json';
     // create product json data and post to firebase
-    http
+    return http
         .post(
       url,
       // convert product to json format
