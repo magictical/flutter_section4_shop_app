@@ -27,11 +27,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     imageUrl: '',
   );
 
-  var _initValue = {
+  var _initValues = {
     'title': '',
     'description': '',
     'price': '',
-    'image': '',
+    'imageUrl': '',
   };
 
   var _isInit = true;
@@ -51,7 +51,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       if (productId != null) {
         _editedProduct =
             Provider.of<Products>(context, listen: false).findById(productId);
-        _initValue = {
+        _initValues = {
           'title': _editedProduct.title,
           'description': _editedProduct.description,
           'price': _editedProduct.price.toString(),
@@ -106,7 +106,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
       setState(() {
-        _isLoading = true;
+        _isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
@@ -115,18 +115,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
           .addProduct(_editedProduct)
           .then((_) {
         setState(() {
-          _isLoading = true;
+          _isLoading = false;
         });
         Navigator.of(context).pop();
       });
     }
-
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_initValue);
+    print(_initValues);
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Product'),
@@ -151,7 +150,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 child: ListView(
                   children: <Widget>[
                     TextFormField(
-                      initialValue: _initValue['title'],
+                      initialValue: _initValues['title'],
                       decoration: InputDecoration(labelText: 'Title'),
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) {
@@ -176,7 +175,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                     ),
                     TextFormField(
-                      initialValue: _initValue['price'],
+                      initialValue: _initValues['price'],
                       decoration: InputDecoration(labelText: 'Price'),
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
@@ -207,7 +206,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                     ),
                     TextFormField(
-                      initialValue: _initValue['description'],
+                      initialValue: _initValues['description'],
                       decoration: InputDecoration(labelText: 'Description'),
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
