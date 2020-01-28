@@ -194,6 +194,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         if (double.parse(value) <= 0) {
                           return 'Price must be bigger than 0';
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _editedProduct = Product(
@@ -269,7 +270,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               if (value.isEmpty) {
                                 return 'Please enter an image URL.';
                               }
-                              if (!value.startsWith('http') ||
+                              if (!value.startsWith('http') &&
                                   !value.startsWith('https')) {
                                 return 'Please enter a valid URL.';
                               }
@@ -278,6 +279,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   !value.endsWith('jpeg')) {
                                 return 'Please enter a valid image URL.';
                               }
+                              return null;
                             },
                             onSaved: (value) {
                               _editedProduct = Product(
