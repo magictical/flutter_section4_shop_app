@@ -113,14 +113,31 @@ class _EditProductScreenState extends State<EditProductScreen> {
       // add product
       Provider.of<Products>(context, listen: false)
           .addProduct(_editedProduct)
-          .then((_) {
+          .catchError((error) {
+        return showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error occurred!'),
+            content: Text('Somthing went wrong'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        );
+        // .then() 블럭은 .chatchError의 에러 처리후(return은 actions의 onpressed) 실행된다
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
       });
     }
-    // Navigator.pop(context);
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -132,13 +149,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {
-              _saveForm();
-            },
+            onPressed: _saveForm,
           )
         ],
       ),
       body: _isLoading
+          // if loading display spinner
           ? Center(
               child: CircularProgressIndicator(),
             )

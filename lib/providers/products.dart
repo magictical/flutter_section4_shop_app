@@ -88,6 +88,7 @@ class Products with ChangeNotifier {
         .then((response) {
       // check inside of the response
       print(json.decode(response.body)['name']);
+      print('this will not be executed');
       final newProduct = Product(
         title: product.title,
         description: product.description,
@@ -101,6 +102,9 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct); //at the start of the list
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 
