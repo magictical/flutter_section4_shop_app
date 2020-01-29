@@ -69,26 +69,25 @@ class Products with ChangeNotifier {
   // }
 
 // to use loading spinner, use Future, .then() while save data to DB
-  Future<void> addProduct(Product product) {
+
+// use async and await keyword instead of .then() and .catchError
+  Future<void> addProduct(Product product) async {
     // url for 'Products' in firebase
-    const url = 'https://flutter-update-97117.firebaseio.com/products.json';
+    const url = 'https://flutter-update-97117.firebaseio.com/products';
     // create product json data and post to firebase
-    return http
-        .post(
-      url,
-      // convert product to json format
-      body: json.encode({
-        'title': product.title,
-        'description': product.description,
-        'imageUrl': product.imageUrl,
-        'price': product.price,
-        'isFavorite': product.isFavorite,
-      }),
-    )
-        .then((response) {
-      // check inside of the response
-      print(json.decode(response.body)['name']);
-      print('this will not be executed');
+    try {
+      final response = await http.post(
+        url,
+        // convert product to json format
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
+
       final newProduct = Product(
         title: product.title,
         description: product.description,
@@ -102,10 +101,10 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct); //at the start of the list
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       throw error;
-    });
+    }
   }
 
   void updateProduct(String id, Product newProduct) {
