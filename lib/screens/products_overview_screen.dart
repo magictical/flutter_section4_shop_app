@@ -19,10 +19,14 @@ class ProductOverviewScreen extends StatefulWidget {
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var _showOnlyFavorites = false;
-
+  var _isInit = true;
   @override
   void didChangeDependencies() {
-    final fetchData = Provider.of<Products>(context).fetchAndSetProducts();
+    // prevent updates everytime when things are changed only updates when it build or rebuild
+    if (_isInit) {
+      Provider.of<Products>(context).fetchAndSetProducts();
+    }
+    _isInit = false;
 
     super.didChangeDependencies();
   }
