@@ -73,7 +73,7 @@ class Products with ChangeNotifier {
 // use async and await keyword instead of .then() and .catchError
   Future<void> addProduct(Product product) async {
     // url for 'Products' in firebase
-    const url = 'https://flutter-update-97117.firebaseio.com/products';
+    const url = 'https://flutter-update-97117.firebaseio.com/products.json';
     // create product json data and post to firebase
     try {
       final response = await http.post(
