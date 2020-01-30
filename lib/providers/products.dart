@@ -68,6 +68,17 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
+// fetch data from DB
+  Future<void> fetchAndSetProducts() async {
+    const url = 'https://flutter-update-97117.firebaseio.com/products.json';
+    try {
+      final response = await http.get(url);
+      print(json.decode(response.body));
+    } catch (error) {
+      throw error;
+    }
+  }
+
 // to use loading spinner, use Future, .then() while save data to DB
 
 // use async and await keyword instead of .then() and .catchError
