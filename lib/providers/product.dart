@@ -18,21 +18,27 @@ class Product with ChangeNotifier {
       @required this.imageUrl,
       this.isFavorite = false});
 
+  void _setFavValue(bool newValue) {
+    isFavorite = newValue;
+    notifyListeners();
+  }
+
   Future<void> toggleFavoriteStatus() async {
-    final url = 'https://flutter-update-97117.firebaseio.com/products/$id';
+    final url = 'https://flutter-update-97117.firebaseio.com/products/$id.json';
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     try {
-      await http.patch(
+      final response = await http.patch(
         url,
         body: json.encode({'isFavorite': isFavorite}),
       );
+      if (response.statusCode >= 400) {
+        _setFavValue(oldStatus);
+      }
     } catch (error) {
-      isFavorite = oldStatus;
+      _setFavValue(oldStatus);
     }
-
-    isFavorite = !isFavorite;
     // set up listener
     notifyListeners();
   }
