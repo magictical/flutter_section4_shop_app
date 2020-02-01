@@ -40,7 +40,8 @@ class UserProductItem extends StatelessWidget {
                   await Provider.of<Products>(context, listen: false)
                       .deleteProduct(id);
                 } catch (erorr) {
-                  // use var for scaffold cuz the context is future
+                  // use var for scaffold not the Scafolld cuz can't sure this line of code
+                  // is in the Future, so the context is current or not
                   scaffold.showSnackBar(
                     SnackBar(
                       content: Text(
