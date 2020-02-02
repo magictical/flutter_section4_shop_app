@@ -23,13 +23,13 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var _isLoading = false;
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     // prevent updates everytime when things are changed only updates when it build or rebuild
     if (_isInit) {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+      await Provider.of<Products>(context).fetchAndSetProducts().then((_) {
         setState(() {
           _isLoading = false;
         });
