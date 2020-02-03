@@ -22,6 +22,16 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   // var for spinner
   var _isLoading = false;
 
+  // @override
+  // void initState() {
+  //   _isLoading = true;
+  //   Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  //   super.initState();
+  // }
+
   @override
   void didChangeDependencies() async {
     // prevent updates everytime when things are changed only updates when it build or rebuild
@@ -29,12 +39,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       setState(() {
         _isLoading = true;
       });
-      await Provider.of<Products>(context).fetchAndSetProducts().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+      await Provider.of<Products>(context).fetchAndSetProducts();
+      setState(() {
+        _isLoading = false;
       });
     }
+
     _isInit = false;
 
     super.didChangeDependencies();
