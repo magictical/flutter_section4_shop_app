@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../providers/auth.dart';
 
-// start on sunday
 enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
