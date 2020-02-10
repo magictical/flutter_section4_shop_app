@@ -8,12 +8,11 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> _authenticate(
+      String email, String password, String urlSegment) async {
     // get apikey from Firebase
     final apiKey = ApiKeyStore.fireBaseKey;
-    print(apiKey);
-    final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$apiKey';
+    final url = urlSegment + apiKey;
 
     final response = await http.post(
       url,
@@ -28,22 +27,13 @@ class Auth with ChangeNotifier {
     print(json.decode(response.body));
   }
 
-  Future<void> login(String email, String password) async {
-    final apiKey = ApiKeyStore.fireBaseKey;
-    print(apiKey);
-    final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$apiKey';
+  Future<void> signUp(String email, String password) async {
+    _authenticate(email, password,
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=');
+  }
 
-    final response = await http.post(
-      url,
-      body: json.encode(
-        {
-          'email': email,
-          'password': password,
-          'returnSecureToken': true,
-        },
-      ),
-    );
-    print(json.decode(response.body));
+  Future<void> login(String email, String password) async {
+    _authenticate(email, password,
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=');
   }
 }
