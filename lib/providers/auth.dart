@@ -12,7 +12,8 @@ class Auth with ChangeNotifier {
       String email, String password, String urlSegment) async {
     // get apikey from Firebase
     final apiKey = ApiKeyStore.fireBaseKey;
-    final url = urlSegment + apiKey;
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:${urlSegment}key=${apiKey}';
 
     final response = await http.post(
       url,
@@ -28,12 +29,10 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signUp(String email, String password) async {
-    _authenticate(email, password,
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=');
+    _authenticate(email, password, 'signUp?');
   }
 
   Future<void> login(String email, String password) async {
-    _authenticate(email, password,
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=');
+    _authenticate(email, password, 'signInWithPassword?');
   }
 }
