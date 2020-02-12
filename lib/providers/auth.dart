@@ -9,12 +9,26 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
+// geter token확인 하고 Auth 받음!
+  bool get isAuth {
+    return token != null;
+  }
+
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     // get apikey from Firebase
     final apiKey = ApiKeyStore.fireBaseKey;
     final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:${urlSegment}key=${apiKey}';
+        'https://identitytoolkit.googleapis.com/v1/accounts:${urlSegment}key=$apiKey';
 
     try {
       final response = await http.post(
@@ -33,6 +47,16 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+      // managing auth responseData and get Auth
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(responseData['expiresIn']),
+        ),
+      );
+      // update change in <Auth> -this will trigger the Consumer<Auth> in main.dart line 38
+      notifyListeners();
     } catch (error) {
       throw error;
     }
