@@ -36,9 +36,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Cart(),
         ),
-        ChangeNotifierProvider.value(
-          value: Orders(),
-        )
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (_) => Orders('', []),
+          update: (ctx, auth, previoustOrders) => Orders(
+            auth.token,
+            previoustOrders.orders,
+          ),
+        ),
+
         // provide Provider obj to Product which want to listen
       ],
       // rebuild on Auth changed only

@@ -104,7 +104,8 @@ class Products with ChangeNotifier {
 // use async and await keyword instead of .then() and .catchError
   Future<void> addProduct(Product product) async {
     // url for 'Products' in firebase
-    const url = 'https://flutter-update-97117.firebaseio.com/products.json';
+    final url =
+        'https://flutter-update-97117.firebaseio.com/products.json?auth=$authTokens';
     // create product json data and post to firebase
     try {
       final response = await http.post(
@@ -143,7 +144,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url =
-          'https://flutter-update-97117.firebaseio.com/products/$id.json';
+          'https://flutter-update-97117.firebaseio.com/products/$id.json?auth=$authTokens';
       // send http request to patch the product data that is changed only
       await http.patch(url,
           body: json.encode({
@@ -161,7 +162,8 @@ class Products with ChangeNotifier {
 
   // change to async keyword
   Future<void> deleteProduct(String id) async {
-    final url = 'https://flutter-update-97117.firebaseio.com/products/$id.json';
+    final url =
+        'https://flutter-update-97117.firebaseio.com/products/$id.json?auth=$authTokens';
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[existingProductIndex];
     // delete product data in the memory
