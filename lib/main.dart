@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           value: Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
-          // work on Provi 4.0.0 after
+          // work on Provider 3.2.0 after
           // get token from http
           create: (_) => Products('', []),
           update: (ctx, auth, previousProducts) =>
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Cart(),
         ),
+        // use ProxyProvider with new syntax in Provider 3.2.0 after
         ChangeNotifierProxyProvider<Auth, Orders>(
           create: (_) => Orders('', []),
           update: (ctx, auth, previoustOrders) => Orders(

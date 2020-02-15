@@ -33,7 +33,6 @@ class Orders with ChangeNotifier {
         'https://flutter-update-97117.firebaseio.com/orders.json?auth=$authToken';
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
-    print(response.body);
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     if (extractedData == null) {
       return;
