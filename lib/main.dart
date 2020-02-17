@@ -38,10 +38,16 @@ class MyApp extends StatelessWidget {
         ),
         // use ProxyProvider with new syntax in Provider 3.2.0 after
         ChangeNotifierProxyProvider<Auth, Orders>(
-          create: (_) => Orders('', []),
-          update: (ctx, auth, previoustOrders) => Orders(
+          create: (_) => Orders('', [], ''),
+          update: (
+            ctx,
+            auth,
+            previoustOrders,
+          ) =>
+              Orders(
             auth.token,
             previoustOrders.orders,
+            auth.userId,
           ),
         ),
 
