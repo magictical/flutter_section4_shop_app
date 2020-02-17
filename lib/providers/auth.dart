@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -8,6 +10,7 @@ class Auth with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
   String _userId;
+  Timer _authTimer;
 
 // geter token확인 하고 Auth 받음!
   bool get isAuth {
@@ -59,6 +62,8 @@ class Auth with ChangeNotifier {
           seconds: int.parse(responseData['expiresIn']),
         ),
       );
+      // set expiry timer when login
+      autoLogout();
       // update change in <Auth> -this will trigger the Consumer<Auth> in main.dart line 38
       notifyListeners();
     } catch (error) {
@@ -78,6 +83,21 @@ class Auth with ChangeNotifier {
     _token = null;
     _userId = null;
     _expiryDate = null;
+    if (_authTimer != null) {
+      _authTimer.cancel();
+      _authTimer = null;
+    }
     notifyListeners();
+  }
+
+  void autoLogout() {
+    if (_authTimer != null) {
+      // reset timer before logout
+      _authTimer.cancel();
+    }
+    // reset timer and set expiry time
+    final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+    // set timer for _expiryDate
+    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }
