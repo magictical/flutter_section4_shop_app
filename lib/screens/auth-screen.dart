@@ -47,7 +47,7 @@ class AuthScreen extends StatelessWidget {
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
                       // control container while rotating device
                       transform: Matrix4.rotationZ(-8 * pi / 180)
-                        // translate return void so need to use .. operator
+                        // translate return void, cuz need to use .. operator
                         ..translate(-10.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
