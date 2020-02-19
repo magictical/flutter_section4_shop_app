@@ -108,6 +108,7 @@ class _AuthCardState extends State<AuthCard>
   // animation for login screen
   AnimationController _controller;
   Animation<Size> _heightAnimation;
+  Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -123,7 +124,10 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.fastOutSlowIn,
       ),
     );
-    _heightAnimation.addListener(() => setState(() {}));
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    );
+    // _heightAnimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -266,8 +270,10 @@ class _AuthCardState extends State<AuthCard>
                     _authData['password'] = value;
                   },
                 ),
-                if (_authMode == AuthMode.Signup)
-                  TextFormField(
+                // for more smooth transition U.I use FadeTransition
+                FadeTransition(
+                  opacity: _opacityAnimation,
+                  child: TextFormField(
                     enabled: _authMode == AuthMode.Signup,
                     decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
@@ -279,6 +285,7 @@ class _AuthCardState extends State<AuthCard>
                           }
                         : null,
                   ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
