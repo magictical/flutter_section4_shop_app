@@ -29,9 +29,14 @@ class ProductDetailScreen extends StatelessWidget {
           Container(
             height: 300,
             width: double.infinity,
-            child: Image.network(
-              loadedProduct.imageUrl,
-              fit: BoxFit.cover,
+            // use Hero effect on the images and note
+            // that tag has to be same with item at product_item.dart
+            child: Hero(
+              tag: loadedProduct.id,
+              child: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(height: 10),

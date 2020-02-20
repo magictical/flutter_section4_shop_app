@@ -31,10 +31,18 @@ class ProductItem extends StatelessWidget {
               arguments: product.id,
             );
           },
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/product-placeholder.png'),
-            image: NetworkImage(product.imageUrl),
-            fit: BoxFit.cover,
+          // use Hero animation for image file for each item
+          child: Hero(
+            // kind of name or id and tag need to be same with
+            // between the images that you want to connect
+            // this item will connect to product detail image(*Container)
+            tag: product.id,
+
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
