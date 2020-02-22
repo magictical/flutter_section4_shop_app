@@ -6,15 +6,19 @@ class CustomRoute<T> extends MaterialPageRoute<T> {
           builder: builder,
           settings: settings,
         );
-  // decide how animation would be work
+}
+
+// decide how animation would be work
+class CustomPageTransitionbuilder extends PageTransitionsBuilder {
   @override
-  Widget buildTransitions(
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    if (settings.isInitialRoute) {
+    if (route.settings.isInitialRoute) {
       return child;
     }
     return FadeTransition(
